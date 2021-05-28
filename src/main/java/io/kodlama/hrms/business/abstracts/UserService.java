@@ -8,7 +8,7 @@ import io.kodlama.hrms.entities.concretes.User;
 
 public interface UserService {
 
-    Result register(User user);
+    Result add(User user);
 
     DataResult<List<User>> getAll();
 
