@@ -3,6 +3,9 @@ package io.kodlama.hrms.business.concretes;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import io.kodlama.hrms.business.abstracts.UserService;
 import io.kodlama.hrms.core.utilities.BusinessEngine.BusinessEngine;
 import io.kodlama.hrms.core.utilities.results.DataResult;
@@ -13,17 +16,19 @@ import io.kodlama.hrms.core.utilities.results.SuccessResult;
 import io.kodlama.hrms.dataAccess.abstracts.UserDao;
 import io.kodlama.hrms.entities.concretes.User;
 
-public class UserManager implements UserService {
+@Service
+public class UserManager<T extends User> implements UserService<T> {
 
-    private UserDao userDao;
+    private final UserDao<T> userDao;
     private static final String email_pattern = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+.(com|org|net|edu|gov|mil|biz|info|mobi)(.[A-Z]{2})?$";
 
-    public UserManager(UserDao userDao) {
+    @Autowired
+    public UserManager(UserDao<T> userDao) {
         this.userDao = userDao;
     }
 
     @Override
-    public Result add(User user) {
+    public Result add(T user) {
 
         Result result = BusinessEngine.run(emailControl(user.getEMail()));
         if (!result.isSuccess())
@@ -34,14 +39,14 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public DataResult<List<User>> getAll() {
-        return new SuccessDataResult<List<User>>(this.userDao.findAll());
+    public DataResult<List<T>> getAll() {
+        return new SuccessDataResult<List<T>>(userDao.findAll());
     }
 
-    private Result emailControl(String email) {
+    public Result emailControl(String email) {
         Pattern pattern = Pattern.compile(email_pattern, Pattern.CASE_INSENSITIVE);
 
-        if (userDao.findbyEmail(email) && pattern.matcher(email).find())
+        if (!pattern.matcher(email).find() || userDao.existsByeMail(email))
             return new ErrorResult();
         return new SuccessResult();
     }

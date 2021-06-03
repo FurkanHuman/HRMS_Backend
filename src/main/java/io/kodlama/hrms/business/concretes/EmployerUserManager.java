@@ -1,47 +1,56 @@
 package io.kodlama.hrms.business.concretes;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.EmployerUserService;
-import io.kodlama.hrms.business.abstracts.UserService;
 import io.kodlama.hrms.core.utilities.BusinessEngine.BusinessEngine;
-import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.ErrorResult;
 import io.kodlama.hrms.core.utilities.results.Result;
-import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
 import io.kodlama.hrms.core.utilities.results.SuccessResult;
 import io.kodlama.hrms.dataAccess.abstracts.EmployerUserDao;
+import io.kodlama.hrms.dataAccess.abstracts.UserDao;
 import io.kodlama.hrms.entities.concretes.EmployerUser;
 
-public class EmployerUserManager implements EmployerUserService {
+@Service
+public class EmployerUserManager extends UserManager<EmployerUser> implements EmployerUserService {
 
     private EmployerUserDao employerUserDao;
-    private UserService userService;
 
-    public EmployerUserManager(EmployerUserDao employerUserDao, UserService userService) {
+    @Autowired
+    public EmployerUserManager(UserDao<EmployerUser> userDao, EmployerUserDao employerUserDao) {
+        super(userDao);
         this.employerUserDao = employerUserDao;
-        this.userService = userService;
     }
 
     @Override
     public Result register(EmployerUser employerUser) {
 
-        Result result = BusinessEngine.run(employerValidator(employerUser));
+        Result result = BusinessEngine.run(validateEmail(employerUser), ValidateEmployer(employerUser),
+                super.emailControl(employerUser.getEMail()));
         if (!result.isSuccess())
             return new ErrorResult();
 
         employerUserDao.save(employerUser);
-        userService.add(employerUser);
         return new SuccessResult();
     }
 
-    private Result employerValidator(EmployerUser employerUser) {
-        return null;
+    private Result validateEmail(EmployerUser employerUser) {
+        String email = employerUser.getDomainMail();
+        String webAddress = employerUser.getWeb_Address();
+
+        String domain = webAddress.split("www.")[1];
+
+        if (domain.equals(email.split("@")[1]))
+            return new SuccessResult();
+        return new ErrorResult();
     }
 
-    @Override
-    public DataResult<List<EmployerUser>> getAll() {
-        return new SuccessDataResult<List<EmployerUser>>(employerUserDao.findAll());
-    }
+    private Result ValidateEmployer(EmployerUser employerUser) {
 
+        if (!employerUser.getEMail().isEmpty())// system personel onayı eklenecek
+            return new SuccessResult();
+
+        return new ErrorResult();
+    }
 }

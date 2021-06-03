@@ -1,5 +1,7 @@
 package io.kodlama.hrms.business.abstracts;
 
-public interface ConfirmEmployerUserService {
+import io.kodlama.hrms.entities.concretes.ConfirmEmployerUser;
+
+public interface ConfirmEmployerUserService<T extends ConfirmEmployerUser> {
 
 }
