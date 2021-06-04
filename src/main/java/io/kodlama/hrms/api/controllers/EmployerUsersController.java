@@ -14,7 +14,7 @@ import io.kodlama.hrms.entities.concretes.EmployerUser;
 @RestController
 @RequestMapping(value = "/api/employerUsers")
 public class EmployerUsersController {
-    private EmployerUserService employerUserService;
+    private final EmployerUserService employerUserService;
 
     @Autowired
     public EmployerUsersController(EmployerUserService employerUserService) {

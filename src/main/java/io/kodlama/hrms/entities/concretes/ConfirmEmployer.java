@@ -1,6 +1,6 @@
 package io.kodlama.hrms.entities.concretes;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,30 +21,28 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "users_verify")
+@Table(name = "confirm_employer_users")
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserVerify {
+public class ConfirmEmployer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "employer_id", nullable = false, referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User userId;
+    private EmployerUser employerId;
 
-    @Column(name = "verify_code")
-    private String verifyCode;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "confirmed_staff_user", nullable = false, referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private StaffUser confirmedStaffUser;
+
+    @Column(name = "confirmed_date")
+    private Timestamp confirmedDate;
 
     @Column(name = "is_confirmed")
     private boolean isConfirmed;
-
-    @Column(name = "created_date")
-    private Date createdDate;
-
-    @Column(name = "confirmed_date")
-    private Date confirmedDate;
 }

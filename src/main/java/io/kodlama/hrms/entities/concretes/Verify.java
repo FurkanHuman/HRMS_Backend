@@ -1,6 +1,6 @@
 package io.kodlama.hrms.entities.concretes;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -21,28 +23,32 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "confirm_employer_users")
+@Table(name = "users_verify")
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConfirmEmployerUser {
+public class Verify {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @JsonIgnore
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "employer_id", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private EmployerUser employerId;
+    @JsonIgnore
+    private User userId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "confirmed_staff_user", nullable = false, referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private StaffUser confirmedStaffUser;
-
-    @Column(name = "confirmed_date")
-    private Timestamp confirmedDate;
+    @Column(name = "verify_code")
+    private String verifyCode;
 
     @Column(name = "is_confirmed")
     private boolean isConfirmed;
+
+    @Column(name = "created_date")
+    private Date createdDate;
+
+    @Column(name = "confirmed_date")
+    private Date confirmedDate;
 }

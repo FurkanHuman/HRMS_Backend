@@ -8,27 +8,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.kodlama.hrms.business.abstracts.JobPositionService;
-import io.kodlama.hrms.entities.concretes.JobPosition;
+import io.kodlama.hrms.business.abstracts.CityService;
+import io.kodlama.hrms.entities.concretes.City;
 
 @RestController
-@RequestMapping(value = "/api/JobPositions")
-public class JobPositionController {
-    private final JobPositionService jobPositionService;
+@RequestMapping(value = "/api/city")
+public class CityController {
+    private final CityService cityService;
 
     @Autowired
-    public JobPositionController(JobPositionService jobPositionService) {
-        this.jobPositionService = jobPositionService;
+    public CityController(CityService cityService) {
+        this.cityService = cityService;
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody JobPosition jobPosition) {
-        return ResponseEntity.ok(this.jobPositionService.add(jobPosition));
+    public ResponseEntity<?> add(@RequestBody City city) {
+        return ResponseEntity.ok(this.cityService.add(city));
     }
 
     @GetMapping("getAll")
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok(this.jobPositionService.getAll());
+        return ResponseEntity.ok(this.cityService.getAll());
     }
 
 }

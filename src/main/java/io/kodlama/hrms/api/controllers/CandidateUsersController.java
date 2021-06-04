@@ -14,7 +14,7 @@ import io.kodlama.hrms.entities.concretes.CandidateUser;
 @RestController
 @RequestMapping(value = "/api/candidateUsers")
 public class CandidateUsersController {
-    private CandidateUserService candidateUserService;
+    private final CandidateUserService candidateUserService;
 
     @Autowired
     public CandidateUsersController(CandidateUserService candidateUserService) {

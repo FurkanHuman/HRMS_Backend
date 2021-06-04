@@ -15,7 +15,7 @@ import io.kodlama.hrms.entities.concretes.EmployerUser;
 @Service
 public class EmployerUserManager extends UserManager<EmployerUser> implements EmployerUserService {
 
-    private EmployerUserDao employerUserDao;
+    private final EmployerUserDao employerUserDao;
 
     @Autowired
     public EmployerUserManager(UserDao<EmployerUser> userDao, EmployerUserDao employerUserDao) {

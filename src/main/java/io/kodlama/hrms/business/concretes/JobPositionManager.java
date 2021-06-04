@@ -18,7 +18,7 @@ import io.kodlama.hrms.entities.concretes.JobPosition;
 @Service
 public class JobPositionManager implements JobPositionService {
 
-    private JobPositionDao jobPositionDao;
+    private final JobPositionDao jobPositionDao;
 
     @Autowired
     public JobPositionManager(JobPositionDao jobPositionDao) {

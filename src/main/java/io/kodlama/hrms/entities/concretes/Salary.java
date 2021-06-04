@@ -4,14 +4,17 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "job_positions")
+@Table(name = "salary_scales")
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobPosition {
+
+public class Salary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +22,6 @@ public class JobPosition {
     @JsonIgnore
     private int id;
 
-    @Column(name = "position")
-    private String position;
+    @Column(name = "scale")
+    private String scale;
 }

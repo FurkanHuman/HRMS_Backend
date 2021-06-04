@@ -21,8 +21,8 @@ import io.kodlama.hrms.entities.concretes.CandidateUser;
 @Service
 public class CandidateUserManager extends UserManager<CandidateUser> implements CandidateUserService {
 
-    private CandidateUserDao candidateUserDao;
-    private RealCheckService realCheckService;
+    private final CandidateUserDao candidateUserDao;
+    private final RealCheckService realCheckService;
 
     @Autowired
     public CandidateUserManager(UserDao<CandidateUser> userDao, CandidateUserDao candidateUserDao,

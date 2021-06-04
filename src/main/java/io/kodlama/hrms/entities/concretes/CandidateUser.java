@@ -2,14 +2,11 @@ package io.kodlama.hrms.entities.concretes;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.*;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -32,6 +29,7 @@ public class CandidateUser extends User {
     @Column(name = "birth_date")
     private Date birthDate;
 
+    @JsonIgnore
     @Column(name = "verify")
     private boolean verify;
 
