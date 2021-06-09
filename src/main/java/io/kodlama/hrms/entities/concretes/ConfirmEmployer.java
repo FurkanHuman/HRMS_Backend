@@ -1,6 +1,6 @@
 package io.kodlama.hrms.entities.concretes;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,21 +27,30 @@ public class ConfirmEmployer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "employer_id", nullable = false, referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private EmployerUser employerId;
+    @JoinColumn(name = "employer_id")
+    private EmployerUser employerUser;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "confirmed_staff_user", nullable = false, referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private StaffUser confirmedStaffUser;
+    @JoinColumn(name = "confirmed_staff_user", nullable = true, referencedColumnName = "id")
+    @ManyToOne
+    private StaffUser staffUser;
 
-    @Column(name = "confirmed_date")
-    private Timestamp confirmedDate;
+    @JsonIgnore
+    @Column(name = "verfiy_code", nullable = false)
+    private String verifyCode;
 
-    @Column(name = "is_confirmed")
+    @JsonIgnore
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime createdDate;
+
+    @JsonIgnore
+    @Column(name = "confirmed_date", nullable = true)
+    private LocalDateTime confirmedDate;
+
+    @JsonIgnore
+    @Column(name = "is_confirmed", nullable = true)
     private boolean isConfirmed;
 }

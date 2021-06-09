@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.kodlama.hrms.business.abstracts.CandidateUserService;
+import io.kodlama.hrms.business.abstracts.VerifyService;
 import io.kodlama.hrms.core.adapters.abstracts.RealCheckService;
 import io.kodlama.hrms.core.adapters.models.mernisPerson;
 import io.kodlama.hrms.core.utilities.BusinessEngine.BusinessEngine;
@@ -23,13 +24,15 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
 
     private final CandidateUserDao candidateUserDao;
     private final RealCheckService realCheckService;
+    private final VerifyService verifyService;
 
     @Autowired
     public CandidateUserManager(UserDao<CandidateUser> userDao, CandidateUserDao candidateUserDao,
-            RealCheckService realCheckService) {
+            RealCheckService realCheckService, VerifyService verifyService) {
         super(userDao);
         this.candidateUserDao = candidateUserDao;
         this.realCheckService = realCheckService;
+        this.verifyService = verifyService;
     }
 
     private int namelength = 3;
@@ -40,6 +43,8 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
                 super.emailControl(candidateUser.getEMail()));
         if (!result.isSuccess())
             return new ErrorResult();
+
+        verifyService.generateCode(candidateUser);
         candidateUserDao.save(candidateUser);
         return new SuccessResult();
     }

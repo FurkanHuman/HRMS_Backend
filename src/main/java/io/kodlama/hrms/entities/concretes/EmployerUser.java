@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,12 +29,4 @@ public class EmployerUser extends User {
 
     @Column(name = "web_address")
     private String web_Address;
-
-    @JsonIgnore
-    @Column(name = "verify")
-    private boolean verify;
-
-    @JsonIgnore
-    @Column(name = "user_confirm")
-    private Boolean userConfirm;
 }

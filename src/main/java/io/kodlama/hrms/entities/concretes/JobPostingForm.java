@@ -1,6 +1,6 @@
 package io.kodlama.hrms.entities.concretes;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
@@ -35,20 +35,27 @@ public class JobPostingForm {
     private int openJobPositionQuantity;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cities", nullable = false, referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private City[] cities;
+    @JoinColumn(name = "cities", nullable = false)
+
+    private City cities;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "salaryScales", nullable = false, referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Salary[] salaries;
+    @JoinColumn(name = "salaryScales", nullable = false)
+    private Salary salaries;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "job_positions", nullable = false, referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private JobPosition jobPosition;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employer_users", nullable = false, referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private EmployerUser employerUser;
+
     @Column(name = "endDate")
-    private Date endDate;
+    private LocalDateTime endDate;
+
+    @Column(name = "isopen")
+    private Boolean isOpen;
 }

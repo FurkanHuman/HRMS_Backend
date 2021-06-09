@@ -35,7 +35,7 @@ public class UserManager<T extends User> implements UserService<T> {
             return new ErrorResult();
 
         userDao.save(user);
-        return result;
+        return new SuccessResult();
     }
 
     @Override

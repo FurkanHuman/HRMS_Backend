@@ -3,6 +3,7 @@ package io.kodlama.hrms.business.concretes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.kodlama.hrms.business.abstracts.ConfirmEmployerService;
 import io.kodlama.hrms.business.abstracts.EmployerUserService;
 import io.kodlama.hrms.core.utilities.BusinessEngine.BusinessEngine;
 import io.kodlama.hrms.core.utilities.results.ErrorResult;
@@ -16,11 +17,14 @@ import io.kodlama.hrms.entities.concretes.EmployerUser;
 public class EmployerUserManager extends UserManager<EmployerUser> implements EmployerUserService {
 
     private final EmployerUserDao employerUserDao;
+    private final ConfirmEmployerService confirmEmployerService;
 
     @Autowired
-    public EmployerUserManager(UserDao<EmployerUser> userDao, EmployerUserDao employerUserDao) {
+    public EmployerUserManager(UserDao<EmployerUser> userDao, EmployerUserDao employerUserDao,
+            ConfirmEmployerService confirmEmployerService) {
         super(userDao);
         this.employerUserDao = employerUserDao;
+        this.confirmEmployerService = confirmEmployerService;
     }
 
     @Override
@@ -30,8 +34,8 @@ public class EmployerUserManager extends UserManager<EmployerUser> implements Em
                 super.emailControl(employerUser.getEMail()));
         if (!result.isSuccess())
             return new ErrorResult();
-
         employerUserDao.save(employerUser);
+        confirmEmployerService.generateCode(employerUser);
         return new SuccessResult();
     }
 
@@ -39,9 +43,16 @@ public class EmployerUserManager extends UserManager<EmployerUser> implements Em
         String email = employerUser.getDomainMail();
         String webAddress = employerUser.getWeb_Address();
 
+        if (webAddress.split("www.").length < 2)
+            return new ErrorResult("www. eklenmelidir");
+
+        if (email.split("@").length < 2)
+            return new ErrorResult("email formatı hatalı");
+
         String domain = webAddress.split("www.")[1];
 
         if (domain.equals(email.split("@")[1]))
+
             return new SuccessResult();
         return new ErrorResult();
     }

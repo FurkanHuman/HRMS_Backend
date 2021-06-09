@@ -1,6 +1,6 @@
 package io.kodlama.hrms.entities.concretes;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,9 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,10 +32,9 @@ public class Verify {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "user_id")
     @JsonIgnore
-    private User userId;
+    private User user;
 
     @Column(name = "verify_code")
     private String verifyCode;
@@ -47,8 +43,8 @@ public class Verify {
     private boolean isConfirmed;
 
     @Column(name = "created_date")
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @Column(name = "confirmed_date")
-    private Date confirmedDate;
+    private LocalDateTime confirmedDate;
 }

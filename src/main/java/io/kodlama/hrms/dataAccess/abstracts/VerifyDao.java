@@ -6,4 +6,6 @@ import io.kodlama.hrms.entities.concretes.Verify;
 
 public interface VerifyDao extends JpaRepository<Verify, Integer> {
 
+    Verify existsByverifyCode(String generatedString);
+
 }
