@@ -9,13 +9,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobPostingFormDto {
-    private String companyName;
+public class JobAdvertismentAddDto {
+
+    private int companyId;
     private String title;
     private String definition;
+    private int jobPositionId;
+    private int city;
     private int openJobPositionQuantity;
-    private LocalDate createdDate;
+    private int minSalaries;
+    private int maxSalaries;
     private LocalDate endDate;
     private boolean isOpen;
-
 }
