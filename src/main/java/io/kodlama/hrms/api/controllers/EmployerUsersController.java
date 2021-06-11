@@ -17,7 +17,7 @@ import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.entities.concretes.EmployerUser;
 import io.kodlama.hrms.entities.dtos.JobAdvertisementGetDto;
-import io.kodlama.hrms.entities.dtos.JobAdvertismentAddDto;
+import io.kodlama.hrms.entities.dtos.JobAdvertisementAddDto;
 
 @RestController
 @RequestMapping(value = "/api/employerUsers")
@@ -38,8 +38,13 @@ public class EmployerUsersController {
     }
 
     @PostMapping("/addJobAdvertisement")
-    public List<Result> addJobAdvertisement(@RequestBody JobAdvertismentAddDto advertismentAddDto) {
+    public List<Result> addJobAdvertisement(@RequestBody JobAdvertisementAddDto advertismentAddDto) {
         return this.jobAdvertisementService.addJobAdvertisement(advertismentAddDto);
+    }
+
+    @PostMapping("/disableJobAdvertisement")
+    public List<Result> disableJobAdvertisement(@RequestParam int jobAdvertisementId, boolean state) {
+        return this.jobAdvertisementService.disableJobAdvertisement(jobAdvertisementId, state);
     }
 
     @GetMapping("/getJobAdvertisement")

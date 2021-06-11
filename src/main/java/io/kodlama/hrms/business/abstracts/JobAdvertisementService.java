@@ -5,11 +5,11 @@ import java.util.List;
 import io.kodlama.hrms.entities.dtos.JobAdvertisementGetDto;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.Result;
-import io.kodlama.hrms.entities.dtos.JobAdvertismentAddDto;
+import io.kodlama.hrms.entities.dtos.JobAdvertisementAddDto;
 
 public interface JobAdvertisementService {
 
-    List<Result> addJobAdvertisement(JobAdvertismentAddDto advertismentAddDto);
+    List<Result> addJobAdvertisement(JobAdvertisementAddDto advertisementAddDto);
 
     DataResult<List<JobAdvertisementGetDto>> getJobAdvertisement(int jobAdvertisementId);
 
@@ -18,6 +18,8 @@ public interface JobAdvertisementService {
     DataResult<List<JobAdvertisementGetDto>> getJobAdvertisementByJobPositionId(int jobPositionId);
 
     DataResult<List<JobAdvertisementGetDto>> getJobAdvertisementByCityId(int cityId);
+
+    List<Result> disableJobAdvertisement(int jobAdvertisementId, boolean state);
 
     // DataResult<List<JobAdvertisementGetDto>>
     // getJobAdvertisementByDateRange(LocalDate startDate, LocalDate endDate);

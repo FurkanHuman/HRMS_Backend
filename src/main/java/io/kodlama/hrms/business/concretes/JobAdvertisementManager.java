@@ -17,8 +17,8 @@ import io.kodlama.hrms.dataAccess.abstracts.EmployerUserDao;
 import io.kodlama.hrms.dataAccess.abstracts.JobAdvertisementDao;
 import io.kodlama.hrms.dataAccess.abstracts.JobPositionDao;
 import io.kodlama.hrms.entities.concretes.jobAdvertisement;
+import io.kodlama.hrms.entities.dtos.JobAdvertisementAddDto;
 import io.kodlama.hrms.entities.dtos.JobAdvertisementGetDto;
-import io.kodlama.hrms.entities.dtos.JobAdvertismentAddDto;
 
 @Service
 public class JobAdvertisementManager implements JobAdvertisementService {
@@ -37,7 +37,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
     }
 
     @Override
-    public List<Result> addJobAdvertisement(JobAdvertismentAddDto advertismentAddDto) {
+    public List<Result> addJobAdvertisement(JobAdvertisementAddDto advertismentAddDto) {
         AllDataResult allDataResult = checkJobAdvertisement(advertismentAddDto);
 
         if (!allDataResult.isSuccess()) {
@@ -64,20 +64,41 @@ public class JobAdvertisementManager implements JobAdvertisementService {
         return allDataResult.getSuccessResults();
     }
 
-    private AllDataResult checkJobAdvertisement(JobAdvertismentAddDto advertismentAddDto) {
+    @Override
+    public List<Result> disableJobAdvertisement(int jobAdvertisementId, boolean state) {
+        AllDataResult allDataResult = checkId(jobAdvertisementId);
+        if (!allDataResult.isSuccess())
+            return allDataResult.getErrorResults();
+        jobAdvertisement jobAdvertisement = jobAdvertisementDao.getById(jobAdvertisementId);
+
+        jobAdvertisement.setOpen(state);
+
+        this.jobAdvertisementDao.save(jobAdvertisement);
+        return allDataResult.getSuccessResults();
+
+    }
+
+    private AllDataResult checkId(int jobAdvertisementId) {
+        AllDataResult allDataResult = new AllDataResult();
+        if (!this.jobAdvertisementDao.findById(jobAdvertisementId).isPresent())
+            allDataResult.addResult(new ErrorResult("id bulunamadı"));
+        return allDataResult;
+    }
+
+    private AllDataResult checkJobAdvertisement(JobAdvertisementAddDto advertisementAddDto) {
 
         AllDataResult allDataResult = new AllDataResult();
 
-        if (this.employerUserDao.findById(advertismentAddDto.getCompanyId()).isEmpty())
+        if (this.employerUserDao.findById(advertisementAddDto.getCompanyId()).isEmpty())
             allDataResult.addResult(new ErrorResult("şirket employer ıd bulunamadı"));
 
-        if (this.cityDao.findById(advertismentAddDto.getCity()).isEmpty())
+        if (this.cityDao.findById(advertisementAddDto.getCity()).isEmpty())
             allDataResult.addResult(new ErrorResult("city id tanımsız"));
 
-        if (this.jobPositionDao.findById(advertismentAddDto.getJobPositionId()).isEmpty())
+        if (this.jobPositionDao.findById(advertisementAddDto.getJobPositionId()).isEmpty())
             allDataResult.addResult(new ErrorResult("job posisition id yok"));
 
-        if (advertismentAddDto.getTitle().length() < 10)
+        if (advertisementAddDto.getTitle().length() < 10)
             allDataResult.addResult(new ErrorResult("title en az 10 karakter olmalı"));
 
         return allDataResult;
