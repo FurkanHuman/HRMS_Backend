@@ -25,7 +25,6 @@ public class JobPositionManager implements JobPositionService {
         this.jobPositionDao = jobPositionDao;
     }
 
-    @Override
     public Result add(JobPosition jobPosition) {
 
         Result result = BusinessEngine.run(equalsControl(jobPosition));
@@ -35,7 +34,6 @@ public class JobPositionManager implements JobPositionService {
         return new SuccessResult();
     }
 
-    @Override
     public DataResult<List<JobPosition>> getAll() {
         return new SuccessDataResult<List<JobPosition>>(jobPositionDao.findAll());
     }

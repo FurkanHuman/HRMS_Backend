@@ -21,7 +21,6 @@ public class StaffUserManager extends UserManager<StaffUser> implements StaffUse
         this.staffUserDao = staffUserDao;
     }
 
-    @Override
     public Result add(StaffUser staffUser) {
 
         Result result = BusinessEngine.run(verify(staffUser), super.emailControl(staffUser.getEMail()));
@@ -42,7 +41,6 @@ public class StaffUserManager extends UserManager<StaffUser> implements StaffUse
         return new SuccessResult();
     }
 
-    @Override
     public Result delete(StaffUser staffUser) {
         staffUserDao.delete(staffUser);
         return new SuccessResult();

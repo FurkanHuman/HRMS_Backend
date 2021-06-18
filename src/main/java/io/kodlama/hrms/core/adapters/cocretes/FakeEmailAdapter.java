@@ -7,7 +7,6 @@ import io.kodlama.hrms.core.adapters.abstracts.EmailSenderService;
 @Service
 public class FakeEmailAdapter implements EmailSenderService {
 
-    @Override
     public void sendMail(String content) {
         System.out.println(content);
     }

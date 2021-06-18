@@ -16,5 +16,6 @@ public class CvGetDto {
     private List<Photo> photos;
     private List<SchoolCvDto> schools;
     private List<LanguageCvDto> languages;
+    private List<ProgramingLanguageCvDto> programingLanguage;
     private List<JobExperienceCvDto> jobExperiences;
 }

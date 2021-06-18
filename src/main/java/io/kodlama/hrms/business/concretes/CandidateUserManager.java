@@ -17,21 +17,23 @@ import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
 import io.kodlama.hrms.core.utilities.results.SuccessResult;
 import io.kodlama.hrms.dataAccess.abstracts.CandidateLanguageDao;
+import io.kodlama.hrms.dataAccess.abstracts.CandidateProgramingLanguageDao;
 import io.kodlama.hrms.dataAccess.abstracts.CandidateSchoolDao;
 import io.kodlama.hrms.dataAccess.abstracts.CandidateUserDao;
 import io.kodlama.hrms.dataAccess.abstracts.PhotoDao;
 import io.kodlama.hrms.dataAccess.abstracts.UserDao;
 import io.kodlama.hrms.dataAccess.abstracts.JobExperienceDao;
 import io.kodlama.hrms.entities.concretes.CandidateLanguage;
+import io.kodlama.hrms.entities.concretes.CandidateProgramingLanguage;
 import io.kodlama.hrms.entities.concretes.CandidateSchool;
 import io.kodlama.hrms.entities.concretes.CandidateUser;
 import io.kodlama.hrms.entities.concretes.JobExperience;
-import io.kodlama.hrms.entities.concretes.Language;
 import io.kodlama.hrms.entities.concretes.Photo;
 import io.kodlama.hrms.entities.dtos.CandidateCvDto;
 import io.kodlama.hrms.entities.dtos.CvGetDto;
 import io.kodlama.hrms.entities.dtos.JobExperienceCvDto;
 import io.kodlama.hrms.entities.dtos.LanguageCvDto;
+import io.kodlama.hrms.entities.dtos.ProgramingLanguageCvDto;
 import io.kodlama.hrms.entities.dtos.SchoolCvDto;
 
 @Service
@@ -43,13 +45,14 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
     private final CandidateSchoolDao candidateSchoolDao;
     private final PhotoDao photoDao;
     private final JobExperienceDao jobExperienceDao;
+    private final CandidateProgramingLanguageDao programingLanguageDao;
     private final VerifyService verifyService;
 
     @Autowired
     public CandidateUserManager(UserDao<CandidateUser> userDao, CandidateUserDao candidateUserDao,
             RealCheckService realCheckService, CandidateLanguageDao candidateLanguageDao,
             CandidateSchoolDao candidateSchoolDao, PhotoDao photoDao, JobExperienceDao jobExperienceDao,
-            VerifyService verifyService) {
+            CandidateProgramingLanguageDao programingLanguageDao, VerifyService verifyService) {
         super(userDao);
         this.candidateUserDao = candidateUserDao;
         this.realCheckService = realCheckService;
@@ -57,12 +60,12 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
         this.candidateSchoolDao = candidateSchoolDao;
         this.photoDao = photoDao;
         this.jobExperienceDao = jobExperienceDao;
+        this.programingLanguageDao = programingLanguageDao;
         this.verifyService = verifyService;
     }
 
     private int namelength = 3;
 
-    @Override
     public Result register(CandidateUser candidateUser) {
         Result result = BusinessEngine.run(candidateUserCheck(candidateUser), nationalityIdCheck(candidateUser),
                 super.emailControl(candidateUser.getEMail()));
@@ -74,7 +77,6 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
         return new SuccessResult();
     }
 
-    @Override
     public DataResult<List<CandidateUser>> getAll() {
         return new SuccessDataResult<List<CandidateUser>>(candidateUserDao.findAll());
     }
@@ -95,9 +97,32 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
         return new SuccessResult();
     }
 
-    @Override
     public DataResult<CvGetDto> getCv(int candidateId) {
+        CvGetDto cvGetDto = new CvGetDto();
 
+        CandidateCvDto candidateCvDto = CandidateCv(candidateId);
+
+        List<LanguageCvDto> languageCvDtos = Language(candidateId);
+
+        List<SchoolCvDto> schoolCvDtos = CandidateSchool(candidateId);
+
+        List<JobExperienceCvDto> experienceCvDtos = Experience(candidateId);
+
+        List<ProgramingLanguageCvDto> programingLanguageCvDtos = ProgramingLanguage(candidateId);
+
+        List<Photo> photos = this.photoDao.findByUserId(candidateId);
+
+        cvGetDto.setProgramingLanguage(programingLanguageCvDtos);
+        cvGetDto.setJobExperiences(experienceCvDtos);
+        cvGetDto.setPhotos(photos);
+        cvGetDto.setSchools(schoolCvDtos);
+        cvGetDto.setLanguages(languageCvDtos);
+        cvGetDto.setCandidate(candidateCvDto);
+
+        return new SuccessDataResult<CvGetDto>(cvGetDto);
+    }
+
+    private CandidateCvDto CandidateCv(int candidateId) {
         CandidateUser candidateUser = new CandidateUser();
         candidateUser = this.candidateUserDao.findById(candidateId).get();
 
@@ -106,14 +131,16 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
         candidateCvDto.setBirthDate(candidateUser.getBirthDate());
         candidateCvDto.setName(candidateUser.getName());
         candidateCvDto.setSurName(candidateUser.getSurName());
+        return candidateCvDto;
+    }
 
+    private List<LanguageCvDto> Language(int candidateId) {
         List<CandidateLanguage> languages = this.candidateLanguageDao.findByCandidateId(candidateId);
 
-        CvGetDto cvGetDto = new CvGetDto();
         List<LanguageCvDto> languageCvDtos = new ArrayList<LanguageCvDto>();
         LanguageCvDto languageCvDto;
 
-        for (CandidateLanguage language : languages) {// foreach
+        for (CandidateLanguage language : languages) {
             languageCvDto = new LanguageCvDto();
             languageCvDto.setDescription(language.getDescription());
             languageCvDto.setId(language.getId());
@@ -122,7 +149,10 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
             languageCvDto.setLevel(language.getLanguageLevel().getLevel());
             languageCvDtos.add(languageCvDto);
         }
+        return languageCvDtos;
+    }
 
+    private List<SchoolCvDto> CandidateSchool(int candidateId) {
         List<CandidateSchool> candidateSchools = this.candidateSchoolDao.findByCandidateId(candidateId);
 
         List<SchoolCvDto> schoolCvDtos = new ArrayList<SchoolCvDto>();
@@ -139,8 +169,10 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
             schoolCvDto.setWebSite(school.getSchool().getWebSite());
             schoolCvDtos.add(schoolCvDto);
         }
+        return schoolCvDtos;
+    }
 
-        List<Photo> photos = this.photoDao.findByUserId(candidateId);
+    private List<JobExperienceCvDto> Experience(int candidateId) {
         List<JobExperience> experiences = this.jobExperienceDao
                 .findByCandidate(this.candidateUserDao.findById(candidateId).get());
 
@@ -162,14 +194,27 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
             experienceCvDto.setPositionId(jobExperience.getJobPosition().getId());
             experienceCvDto.setWeb_Address(jobExperience.getEmployer().getWeb_Address());
             experienceCvDtos.add(experienceCvDto);
+        }
+        return experienceCvDtos;
+    }
+
+    private List<ProgramingLanguageCvDto> ProgramingLanguage(int candidateId) {
+        List<CandidateProgramingLanguage> candidateProgramingLanguages = this.programingLanguageDao
+                .findByCandidateId(candidateId);
+
+        List<ProgramingLanguageCvDto> programingLanguageCvDtos = new ArrayList<ProgramingLanguageCvDto>();
+
+        ProgramingLanguageCvDto programingLanguageCvDto;
+
+        for (CandidateProgramingLanguage programingLanguage : candidateProgramingLanguages) {
+            programingLanguageCvDto = new ProgramingLanguageCvDto();
+
+            programingLanguageCvDto.setComment(programingLanguage.getComment());
+            programingLanguageCvDto.setProgramingLanguage(programingLanguage.getProgramingLanguage().getName());
+            programingLanguageCvDto.setId(programingLanguage.getId());
+            programingLanguageCvDtos.add(programingLanguageCvDto);
 
         }
-
-        cvGetDto.setJobExperiences(experienceCvDtos);
-        cvGetDto.setPhotos(photos);
-        cvGetDto.setSchools(schoolCvDtos);
-        cvGetDto.setLanguages(languageCvDtos);
-        cvGetDto.setCandidate(candidateCvDto);
-        return new SuccessDataResult<CvGetDto>(cvGetDto);
+        return programingLanguageCvDtos;
     }
 }

@@ -16,7 +16,7 @@ import io.kodlama.hrms.dataAccess.abstracts.CityDao;
 import io.kodlama.hrms.dataAccess.abstracts.EmployerUserDao;
 import io.kodlama.hrms.dataAccess.abstracts.JobAdvertisementDao;
 import io.kodlama.hrms.dataAccess.abstracts.JobPositionDao;
-import io.kodlama.hrms.entities.concretes.jobAdvertisement;
+import io.kodlama.hrms.entities.concretes.JobAdvertisement;
 import io.kodlama.hrms.entities.dtos.JobAdvertisementAddDto;
 import io.kodlama.hrms.entities.dtos.JobAdvertisementGetDto;
 
@@ -36,7 +36,6 @@ public class JobAdvertisementManager implements JobAdvertisementService {
         this.employerUserDao = employerUserDao;
     }
 
-    @Override
     public List<Result> addJobAdvertisement(JobAdvertisementAddDto advertismentAddDto) {
         AllDataResult allDataResult = checkJobAdvertisement(advertismentAddDto);
 
@@ -45,7 +44,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
             return allDataResult.getErrorResults();
         }
 
-        jobAdvertisement advertisement = new jobAdvertisement();
+        JobAdvertisement advertisement = new JobAdvertisement();
 
         advertisement.setCity(this.cityDao.findById(advertismentAddDto.getCity()).get());
         advertisement.setEmployer(this.employerUserDao.findById(advertismentAddDto.getCompanyId()).get());
@@ -64,12 +63,11 @@ public class JobAdvertisementManager implements JobAdvertisementService {
         return allDataResult.getSuccessResults();
     }
 
-    @Override
     public List<Result> disableJobAdvertisement(int jobAdvertisementId, boolean state) {
         AllDataResult allDataResult = checkId(jobAdvertisementId);
         if (!allDataResult.isSuccess())
             return allDataResult.getErrorResults();
-        jobAdvertisement jobAdvertisement = jobAdvertisementDao.getById(jobAdvertisementId);
+        JobAdvertisement jobAdvertisement = jobAdvertisementDao.getById(jobAdvertisementId);
 
         jobAdvertisement.setOpen(state);
 
@@ -105,24 +103,20 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 
     }
 
-    @Override
     public DataResult<List<JobAdvertisementGetDto>> getJobAdvertisement(int jobAdvertisementId) {
         return new SuccessDataResult<List<JobAdvertisementGetDto>>(
                 this.jobAdvertisementDao.getJobAdvertisement(jobAdvertisementId));
     }
 
-    @Override
     public DataResult<List<JobAdvertisementGetDto>> getAllJobAdvertisement() {
         return new SuccessDataResult<List<JobAdvertisementGetDto>>(this.jobAdvertisementDao.getAllJobAdvertisement());
     }
 
-    @Override
     public DataResult<List<JobAdvertisementGetDto>> getJobAdvertisementByJobPositionId(int jobPositionId) {
         return new SuccessDataResult<List<JobAdvertisementGetDto>>(
                 this.jobAdvertisementDao.getJobAdvertisementByjobPositionId(jobPositionId));
     }
 
-    @Override
     public DataResult<List<JobAdvertisementGetDto>> getJobAdvertisementByCityId(int cityId) {
         return new SuccessDataResult<List<JobAdvertisementGetDto>>(
                 this.jobAdvertisementDao.getJobAdvertisementByCityId(cityId));

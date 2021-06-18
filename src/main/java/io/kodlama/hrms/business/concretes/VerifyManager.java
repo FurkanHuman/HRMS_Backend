@@ -27,7 +27,6 @@ public class VerifyManager implements VerifyService {
         this.emailSenderService = emailSenderService;
     }
 
-    @Override
     public void generateCode(User User) {
         Verify verify = new Verify();
 
@@ -41,7 +40,6 @@ public class VerifyManager implements VerifyService {
         emailSenderService.sendMail(generatedString);
     }
 
-    @Override
     public Result verifyCode(User user, String generatedString) {
 
         Verify verify = verifyDao.existsByverifyCode(generatedString);

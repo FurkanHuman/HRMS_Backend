@@ -27,7 +27,6 @@ public class UserManager<T extends User> implements UserService<T> {
         this.userDao = userDao;
     }
 
-    @Override
     public Result add(T user) {
 
         Result result = BusinessEngine.run(emailControl(user.getEMail()));
@@ -38,7 +37,6 @@ public class UserManager<T extends User> implements UserService<T> {
         return new SuccessResult();
     }
 
-    @Override
     public DataResult<List<T>> getAll() {
         return new SuccessDataResult<List<T>>(userDao.findAll());
     }

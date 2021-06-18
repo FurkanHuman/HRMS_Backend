@@ -28,7 +28,6 @@ public class ConfirmEmployerManager implements ConfirmEmployerService {
         this.emailSenderService = emailSenderService;
     }
 
-    @Override
     public void generateCode(EmployerUser employerUser) {
         ConfirmEmployer confirmEmployer = new ConfirmEmployer();
         confirmEmployer.setConfirmed(false);
@@ -40,7 +39,6 @@ public class ConfirmEmployerManager implements ConfirmEmployerService {
 
     }
 
-    @Override
     public Result verifyCodeConfirmEmployer(StaffUser staffUser, EmployerUser employerUser, String generatedString) {
         ConfirmEmployer confirmEmployer = confirmEmployerDao.existsByverifyCode(generatedString);
 

@@ -24,7 +24,6 @@ public class CityManager implements CityService {
         this.cityDao = cityDao;
     }
 
-    @Override
     public Result add(City city) {
         Result result = BusinessEngine.run(existsCity(city), namelength(city.getName()));
 
@@ -35,7 +34,6 @@ public class CityManager implements CityService {
         return new SuccessResult();
     }
 
-    @Override
     public DataResult<List<City>> getAll() {
         return new SuccessDataResult<List<City>>(this.cityDao.findAll());
     }

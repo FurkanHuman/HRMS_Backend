@@ -6,4 +6,6 @@ import io.kodlama.hrms.entities.concretes.LanguageLevel;
 
 public interface LanguageLevelDao extends JpaRepository<LanguageLevel, Integer> {
 
+    boolean findByName(String name);
+
 }

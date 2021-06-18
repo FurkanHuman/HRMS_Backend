@@ -27,7 +27,6 @@ public class EmployerUserManager extends UserManager<EmployerUser> implements Em
         this.confirmEmployerService = confirmEmployerService;
     }
 
-    @Override
     public Result register(EmployerUser employerUser) {
 
         Result result = BusinessEngine.run(validateEmail(employerUser), ValidateEmployer(employerUser),

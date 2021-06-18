@@ -24,7 +24,6 @@ public class SalaryManager implements SalaryService {
         this.salaryDao = salaryDao;
     }
 
-    @Override
     public Result add(Salary salary) {
         Result result = BusinessEngine.run(existsSalary(salary));
         if (!result.isSuccess())
@@ -34,7 +33,6 @@ public class SalaryManager implements SalaryService {
 
     }
 
-    @Override
     public DataResult<List<Salary>> getAll() {
         return new SuccessDataResult<List<Salary>>(this.salaryDao.findAll());
     }
