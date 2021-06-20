@@ -20,9 +20,9 @@ import io.kodlama.hrms.dataAccess.abstracts.CandidateLanguageDao;
 import io.kodlama.hrms.dataAccess.abstracts.CandidateProgramingLanguageDao;
 import io.kodlama.hrms.dataAccess.abstracts.CandidateSchoolDao;
 import io.kodlama.hrms.dataAccess.abstracts.CandidateUserDao;
+import io.kodlama.hrms.dataAccess.abstracts.JobExperienceDao;
 import io.kodlama.hrms.dataAccess.abstracts.PhotoDao;
 import io.kodlama.hrms.dataAccess.abstracts.UserDao;
-import io.kodlama.hrms.dataAccess.abstracts.JobExperienceDao;
 import io.kodlama.hrms.entities.concretes.CandidateLanguage;
 import io.kodlama.hrms.entities.concretes.CandidateProgramingLanguage;
 import io.kodlama.hrms.entities.concretes.CandidateSchool;
@@ -127,7 +127,9 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
         candidateUser = this.candidateUserDao.findById(candidateId).get();
 
         CandidateCvDto candidateCvDto = new CandidateCvDto();
+
         candidateCvDto.setId(candidateUser.getId());
+        candidateCvDto.setEMail(candidateUser.getEMail());
         candidateCvDto.setBirthDate(candidateUser.getBirthDate());
         candidateCvDto.setName(candidateUser.getName());
         candidateCvDto.setSurName(candidateUser.getSurName());

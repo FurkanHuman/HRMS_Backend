@@ -1,5 +1,7 @@
 package io.kodlama.hrms.entities.dtos;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,9 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LanguageAddDto {
+public class CandidateSchoolAddDto {
+    private int schoolId;
     private int candidateId;
-    private int languageLevelId;
-    private int languageId;
     private String description;
+    private LocalDate graduation;
+
 }

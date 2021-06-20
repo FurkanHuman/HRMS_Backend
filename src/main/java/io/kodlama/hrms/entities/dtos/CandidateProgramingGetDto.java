@@ -1,20 +1,16 @@
 package io.kodlama.hrms.entities.dtos;
 
-import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
+@Data
 @NoArgsConstructor
-
-public class CandidateCvDto {
-
+public class CandidateProgramingGetDto {
     private int id;
+    private String comment;
+    private int programingLanguageId;
     private String name;
-    private String surName;
-    private Date birthDate;
-    private String eMail;
 
 }

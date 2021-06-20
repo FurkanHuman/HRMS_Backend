@@ -5,11 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class LanguageAddDto {
+@AllArgsConstructor
+public class CandidateProgramingAddDto {
     private int candidateId;
-    private int languageLevelId;
-    private int languageId;
-    private String description;
+    private int programingLanguageId;
+    private String comment;
 }
