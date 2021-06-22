@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.kodlama.hrms.business.abstracts.LanguageLevelService;
-import io.kodlama.hrms.entities.dtos.LanguageLevelDto;
+import io.kodlama.hrms.entities.dtos.LanguageLevelAddDto;
 
 @RestController
 @RequestMapping(value = "/api/languageLevel")
@@ -27,7 +27,7 @@ public class LanguageLevelController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody LanguageLevelDto languageLevelDto) {
+    public ResponseEntity<?> add(@RequestBody LanguageLevelAddDto languageLevelDto) {
         return ResponseEntity.ok(this.languageLevelService.add(languageLevelDto));
     }
 

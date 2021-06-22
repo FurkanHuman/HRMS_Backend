@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LanguageLevelDto {
+public class LanguageLevelAddDto {
     private int level;
     private String name;
 }

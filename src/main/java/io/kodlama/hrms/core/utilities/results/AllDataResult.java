@@ -48,15 +48,6 @@ public class AllDataResult {
         return errordataResult;
     }
 
-    public List<Result> getErrorResults() {
-        List<Result> errorResult = new ArrayList<Result>();
-        for (Result result : this.result) {
-            if (!result.isSuccess())
-                errorResult.add(result);
-        }
-        return errorResult;
-    }
-
     public List<DataResult> getSuccessDataResults() {
         List<DataResult> successDataResult = new ArrayList<DataResult>();
         for (DataResult dataResult : this.dataResult) {
@@ -73,6 +64,15 @@ public class AllDataResult {
                 successResult.add(result);
         }
         return successResult;
+    }
+
+    public List<Result> getErrorResults() {
+        List<Result> errorResult = new ArrayList<Result>();
+        for (Result result : this.result) {
+            if (!result.isSuccess())
+                errorResult.add(result);
+        }
+        return errorResult;
     }
 
 }

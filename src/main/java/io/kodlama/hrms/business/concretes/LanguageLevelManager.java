@@ -13,7 +13,7 @@ import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
 import io.kodlama.hrms.dataAccess.abstracts.LanguageLevelDao;
 import io.kodlama.hrms.entities.concretes.LanguageLevel;
-import io.kodlama.hrms.entities.dtos.LanguageLevelDto;
+import io.kodlama.hrms.entities.dtos.LanguageLevelAddDto;
 
 @Service
 public class LanguageLevelManager implements LanguageLevelService {
@@ -29,7 +29,7 @@ public class LanguageLevelManager implements LanguageLevelService {
         return new SuccessDataResult<List<LanguageLevel>>(this.languageLevelDao.findAll());
     }
 
-    public List<Result> add(LanguageLevelDto languageLevelDto) {
+    public List<Result> add(LanguageLevelAddDto languageLevelDto) {
 
         AllDataResult allDataResult = checkLanguageLevel(languageLevelDto);
         if (!allDataResult.isSuccess())
@@ -43,7 +43,7 @@ public class LanguageLevelManager implements LanguageLevelService {
         return allDataResult.getSuccessResults();
     }
 
-    private AllDataResult checkLanguageLevel(LanguageLevelDto languageLevelDto) {
+    private AllDataResult checkLanguageLevel(LanguageLevelAddDto languageLevelDto) {
         AllDataResult allDataResult = new AllDataResult();
 
         if (languageLevelDto.getLevel() == 0)

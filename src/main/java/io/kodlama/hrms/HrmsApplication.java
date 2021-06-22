@@ -11,7 +11,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 @SpringBootApplication
 public class HrmsApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		SpringApplication.run(HrmsApplication.class, args);
 	}
 

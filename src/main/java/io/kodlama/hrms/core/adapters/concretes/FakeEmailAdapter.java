@@ -1,4 +1,4 @@
-package io.kodlama.hrms.core.adapters.cocretes;
+package io.kodlama.hrms.core.adapters.concretes;
 
 import org.springframework.stereotype.Service;
 

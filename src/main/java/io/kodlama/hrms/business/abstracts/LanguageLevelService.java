@@ -5,11 +5,11 @@ import java.util.List;
 import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.entities.concretes.LanguageLevel;
-import io.kodlama.hrms.entities.dtos.LanguageLevelDto;
+import io.kodlama.hrms.entities.dtos.LanguageLevelAddDto;
 
 public interface LanguageLevelService {
 
     DataResult<List<LanguageLevel>> getAll();
 
-    List<Result> add(LanguageLevelDto languageLevelDto);
+    List<Result> add(LanguageLevelAddDto languageLevelDto);
 }
