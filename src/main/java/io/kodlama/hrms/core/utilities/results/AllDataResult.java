@@ -5,17 +5,17 @@ import java.util.List;
 
 public class AllDataResult {
 
-    private List<DataResult> dataResult;
+    private List<DataResult<?>> dataResult;
     private List<Result> result;
     private boolean success;
 
     public AllDataResult() {
-        this.dataResult = new ArrayList<DataResult>();
+        this.dataResult = new ArrayList<DataResult<?>>();
         this.result = new ArrayList<Result>();
         this.success = true;
     }
 
-    public void addResult(DataResult result) {
+    public void addResult(DataResult<?> result) {
         this.dataResult.add(result);
         if (result.isSuccess() == false)
             this.success = false;
@@ -31,7 +31,7 @@ public class AllDataResult {
         return this.success;
     }
 
-    public List<DataResult> getDataResults() {
+    public List<DataResult<?>> getDataResults() {
         return this.dataResult;
     }
 
@@ -39,18 +39,18 @@ public class AllDataResult {
         return this.result;
     }
 
-    public List<DataResult> getErrorDataResults() {
-        List<DataResult> errordataResult = new ArrayList<DataResult>();
-        for (DataResult dataResult : this.dataResult) {
+    public List<DataResult<?>> getErrorDataResults() {
+        List<DataResult<?>> errordataResult = new ArrayList<DataResult<?>>();
+        for (DataResult<?> dataResult : this.dataResult) {
             if (!dataResult.isSuccess())
                 errordataResult.add(dataResult);
         }
         return errordataResult;
     }
 
-    public List<DataResult> getSuccessDataResults() {
-        List<DataResult> successDataResult = new ArrayList<DataResult>();
-        for (DataResult dataResult : this.dataResult) {
+    public List<DataResult<?>> getSuccessDataResults() {
+        List<DataResult<?>> successDataResult = new ArrayList<DataResult<?>>();
+        for (DataResult<?> dataResult : this.dataResult) {
             if (dataResult.isSuccess())
                 successDataResult.add(dataResult);
         }
