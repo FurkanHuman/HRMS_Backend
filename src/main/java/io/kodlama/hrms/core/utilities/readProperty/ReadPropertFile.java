@@ -5,10 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class ReadPropertFile {
 
     private static String propertiesPath;
 
+    @Autowired
     public ReadPropertFile(String propertiesPath) throws FileNotFoundException, IOException {
 
     }
