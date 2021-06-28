@@ -41,6 +41,10 @@ public class UserManager<T extends User> implements UserService<T> {
         return new SuccessDataResult<List<T>>(userDao.findAll());
     }
 
+    public DataResult<T> getById(int id) {
+        return new SuccessDataResult<T>(this.userDao.getById(id));
+    }
+
     public Result emailControl(String email) {
         Pattern pattern = Pattern.compile(email_pattern, Pattern.CASE_INSENSITIVE);
 

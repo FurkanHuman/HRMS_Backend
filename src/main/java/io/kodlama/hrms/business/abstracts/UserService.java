@@ -11,4 +11,7 @@ public interface UserService<T extends User> {
     Result add(T user);
 
     DataResult<List<T>> getAll();
+
+    DataResult<T> getById(int id);
+
 }
