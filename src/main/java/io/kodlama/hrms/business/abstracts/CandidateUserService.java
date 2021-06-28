@@ -13,4 +13,6 @@ public interface CandidateUserService extends UserService<CandidateUser> {
     DataResult<List<CandidateUser>> getAll();
 
     DataResult<CvGetDto> getCv(int candidateId);
+
+    DataResult<CandidateUser> getById(int id);
 }

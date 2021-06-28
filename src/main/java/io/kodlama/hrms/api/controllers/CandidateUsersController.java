@@ -35,9 +35,14 @@ public class CandidateUsersController {
 
     }
 
-    @GetMapping("getAll")
+    @GetMapping("/getAll")
     public ResponseEntity<?> getall() {
         return ResponseEntity.ok(this.candidateUserService.getAll());
+    }
+
+    @PostMapping("/getById")
+    public ResponseEntity<?> getById(int id) {
+        return ResponseEntity.ok(this.candidateUserService.getById(id));
     }
 
 }

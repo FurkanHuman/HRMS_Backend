@@ -219,4 +219,10 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
         }
         return programingLanguageCvDtos;
     }
+
+    @Override
+    public DataResult<CandidateUser> getById(int id) {
+        return new SuccessDataResult<CandidateUser>(this.candidateUserDao.getById(id), "listed");
+    }
+
 }
