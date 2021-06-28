@@ -30,8 +30,7 @@ public class CloudinaryConf {
 
     @Bean // Düz url yöntemi. Environment class kullanıması ve enjekte edilmesi gerekiyor.
     public Cloudinary cloudinaryConfig() {
-        System.out
-                .println("Cloudinary V " + Cloudinary.VERSION + " Java Version: " + Cloudinary.USER_AGENT_JAVA_VERSION);
+        System.out.println("Cloudinary V " + Cloudinary.VERSION);
         return new Cloudinary(environment.getProperty("CLOUDINARY_URL"));
     }
 
