@@ -13,4 +13,7 @@ public interface PhotoService {
     DataResult<List<Photo>> getAll();
 
     List<Result> add(MultipartFile file, int candidateUserId);
+
+    List<Result> delete(int userId);
+
 }

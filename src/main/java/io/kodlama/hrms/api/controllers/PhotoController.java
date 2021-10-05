@@ -34,4 +34,8 @@ public class PhotoController {
         return ResponseEntity.ok(this.photoService.getAll());
     }
 
+    @PostMapping("delete")
+    public ResponseEntity<?> delete(@RequestParam int candidateUserId) {
+        return ResponseEntity.ok(this.photoService.delete(candidateUserId));
+    }
 }
