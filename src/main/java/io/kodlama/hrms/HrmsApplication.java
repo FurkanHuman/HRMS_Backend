@@ -12,8 +12,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class HrmsApplication {
 
 	public static void main(String[] args) {
-		System.out.println("\n Java Version: " + System.getProperty("java.version"));
-
+		System.out.println("Java Version: " + System.getProperty("java.version"));
 		SpringApplication.run(HrmsApplication.class, args);
 	}
 
