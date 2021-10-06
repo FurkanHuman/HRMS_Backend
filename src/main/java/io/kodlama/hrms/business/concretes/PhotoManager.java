@@ -15,7 +15,6 @@ import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.ErrorResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
-import io.kodlama.hrms.core.utilities.results.SuccessResult;
 import io.kodlama.hrms.dataAccess.abstracts.CandidateUserDao;
 import io.kodlama.hrms.dataAccess.abstracts.PhotoDao;
 import io.kodlama.hrms.entities.concretes.Photo;
