@@ -29,4 +29,15 @@ public class CloudinaryImageManager implements ImageService {
             return null;
         }
     }
+
+    @Override
+    public String remove(String photoId) {
+        try {
+            Map<?, ?> result = cloudinary.uploader().destroy(photoId, ObjectUtils.emptyMap());
+            return result.get("result").toString();
+
+        } catch (Exception io) {
+            return null;
+        }
+    }
 }
