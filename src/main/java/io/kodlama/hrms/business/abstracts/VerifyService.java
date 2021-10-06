@@ -6,7 +6,7 @@ import io.kodlama.hrms.entities.concretes.User;
 
 public interface VerifyService {
 
-    void generateCode(User User);
+    void generateCode(User User, int length);
 
     Result verifyCode(User user, String generatedString);
 }

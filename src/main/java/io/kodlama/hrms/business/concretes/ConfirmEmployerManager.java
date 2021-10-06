@@ -28,12 +28,12 @@ public class ConfirmEmployerManager implements ConfirmEmployerService {
         this.emailSenderService = emailSenderService;
     }
 
-    public void generateCode(EmployerUser employerUser) {
+    public void generateCode(EmployerUser employerUser, int length) {
         ConfirmEmployer confirmEmployer = new ConfirmEmployer();
         confirmEmployer.setConfirmed(false);
         confirmEmployer.setEmployerUser(employerUser);
         confirmEmployer.setCreatedDate(LocalDateTime.now());
-        confirmEmployer.setVerifyCode(RandomString.make(32));
+        confirmEmployer.setVerifyCode(RandomString.make(length));
         emailSenderService.sendMail(confirmEmployer.getVerifyCode());
         confirmEmployerDao.save(confirmEmployer);
 

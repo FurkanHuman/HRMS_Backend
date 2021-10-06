@@ -64,7 +64,8 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
         this.verifyService = verifyService;
     }
 
-    private int namelength = 3;
+    private final int namelength = 3;
+    private final int gCLength = 16;
 
     public Result register(CandidateUser candidateUser) {
         Result result = BusinessEngine.run(candidateUserCheck(candidateUser), nationalityIdCheck(candidateUser),
@@ -72,7 +73,7 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
         if (!result.isSuccess())
             return new ErrorResult();
 
-        verifyService.generateCode(candidateUser);
+        verifyService.generateCode(candidateUser, gCLength);
         candidateUserDao.save(candidateUser);
         return new SuccessResult();
     }

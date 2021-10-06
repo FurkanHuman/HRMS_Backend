@@ -5,7 +5,7 @@ import io.kodlama.hrms.entities.concretes.EmployerUser;
 import io.kodlama.hrms.entities.concretes.StaffUser;
 
 public interface ConfirmEmployerService {
-    void generateCode(EmployerUser employerUser);
+    void generateCode(EmployerUser employerUser, int length);
 
     Result verifyCodeConfirmEmployer(StaffUser staffUser, EmployerUser employerUser, String generatedString);
 }

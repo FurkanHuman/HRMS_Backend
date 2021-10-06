@@ -18,6 +18,7 @@ public class EmployerUserManager extends UserManager<EmployerUser> implements Em
 
     private final EmployerUserDao employerUserDao;
     private final ConfirmEmployerService confirmEmployerService;
+    private final int gClength = 32;
 
     @Autowired
     public EmployerUserManager(UserDao<EmployerUser> userDao, EmployerUserDao employerUserDao,
@@ -34,7 +35,7 @@ public class EmployerUserManager extends UserManager<EmployerUser> implements Em
         if (!result.isSuccess())
             return new ErrorResult();
         employerUserDao.save(employerUser);
-        confirmEmployerService.generateCode(employerUser);
+        confirmEmployerService.generateCode(employerUser, gClength);
         return new SuccessResult();
     }
 

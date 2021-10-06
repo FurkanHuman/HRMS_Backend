@@ -27,13 +27,13 @@ public class VerifyManager implements VerifyService {
         this.emailSenderService = emailSenderService;
     }
 
-    public void generateCode(User User) {
+    public void generateCode(User User, int length) {
         Verify verify = new Verify();
 
         verify.setUser(User);
         verify.setCreatedDate(LocalDateTime.now());
         verify.setConfirmed(false);
-        String generatedString = RandomString.make(16);
+        String generatedString = RandomString.make(length);
 
         verify.setVerifyCode(generatedString);
         verifyDao.save(verify);
