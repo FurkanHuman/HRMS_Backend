@@ -15,6 +15,7 @@ import io.kodlama.hrms.core.utilities.results.DataResult;
 import io.kodlama.hrms.core.utilities.results.ErrorResult;
 import io.kodlama.hrms.core.utilities.results.Result;
 import io.kodlama.hrms.core.utilities.results.SuccessDataResult;
+import io.kodlama.hrms.core.utilities.results.SuccessResult;
 import io.kodlama.hrms.dataAccess.abstracts.CandidateUserDao;
 import io.kodlama.hrms.dataAccess.abstracts.PhotoDao;
 import io.kodlama.hrms.entities.concretes.Photo;
@@ -51,6 +52,7 @@ public class PhotoManager implements PhotoService {
         photo.setUserId(candidateUserId);
         photo.setLink(photoLink);
         photoDao.save(photo);
+        allDataResult.addResult(new SuccessResult("sisteme yüklendi"));
 
         return allDataResult.getSuccessResults();
     }
@@ -60,14 +62,19 @@ public class PhotoManager implements PhotoService {
         if (!allDataResult.isSuccess())
             return allDataResult.getErrorResults();
 
-        List<Photo> userPhotos = this.photoDao.findByUserId(userId);
+        Photo userPhoto = this.photoDao.findByUserId(userId);
 
-        for (Photo photo : userPhotos) {
+        if (this.imageService.remove(urlToId(userPhoto.getLink())).equals("ok")) {
+            this.photoDao.delete(userPhoto);
+            allDataResult.addResult(new SuccessResult("sistemden silindi"));
+        }
 
-            this.imageService.remove(urlToId(photo.getLink())).equals("ok");
-            this.photoDao.delete(photo);
+        else {
+            allDataResult.addResult(new ErrorResult("veritabanı ile eşleşmedi"));
+            return allDataResult.getErrorResults();
         }
         return allDataResult.getSuccessResults();
+
     }
 
     private AllDataResult checkPhoto(MultipartFile file, int candidateUserId) {
