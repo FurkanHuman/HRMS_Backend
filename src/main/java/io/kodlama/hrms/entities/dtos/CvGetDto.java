@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class CvGetDto {
 
     private CandidateCvDto candidate;
-    private List<Photo> photos;
+    private Photo photos;
     private List<SchoolCvDto> schools;
     private List<LanguageCvDto> languages;
     private List<ProgramingLanguageCvDto> programingLanguage;
