@@ -111,11 +111,11 @@ public class CandidateUserManager extends UserManager<CandidateUser> implements 
 
         List<ProgramingLanguageCvDto> programingLanguageCvDtos = ProgramingLanguage(candidateId);
 
-        List<Photo> photos = this.photoDao.findByUserId(candidateId);
+        Photo photo = this.photoDao.findByUserId(candidateId);
 
         cvGetDto.setProgramingLanguage(programingLanguageCvDtos);
         cvGetDto.setJobExperiences(experienceCvDtos);
-        cvGetDto.setPhotos(photos);
+        cvGetDto.setPhotos(photo);
         cvGetDto.setSchools(schoolCvDtos);
         cvGetDto.setLanguages(languageCvDtos);
         cvGetDto.setCandidate(candidateCvDto);
