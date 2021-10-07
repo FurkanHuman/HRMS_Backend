@@ -8,8 +8,6 @@ public interface PhotoDao extends JpaRepository<Photo, Integer> {
 
     Photo findByUserId(int candidateId);
 
-    String findBylink(int photoId);
-
     boolean existsByUserId(int candidateUserId);
 
     Photo getByUserId(int candidateUserId);
