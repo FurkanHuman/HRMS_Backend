@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import io.kodlama.hrms.business.abstracts.PhotoService;
 import io.kodlama.hrms.core.adapters.abstracts.ImageService;
 import io.kodlama.hrms.core.utilities.results.AllDataResult;
@@ -74,7 +73,6 @@ public class PhotoManager implements PhotoService {
             return allDataResult.getErrorResults();
         }
         return allDataResult.getSuccessResults();
-
     }
 
     private AllDataResult checkPhoto(MultipartFile file, int candidateUserId) {
@@ -92,11 +90,8 @@ public class PhotoManager implements PhotoService {
     private AllDataResult checkPhotoDatabase(int candidateUserId) {
         AllDataResult allDataResult = new AllDataResult();
 
-        if (this.photoDao.getByUserId(candidateUserId) == null)
-            allDataResult.addResult(new ErrorResult("veri yok"));
-
-        if (this.photoDao.getByUserId(candidateUserId).getLink().isEmpty())
-            allDataResult.addResult(new ErrorResult("link bulunamadı"));
+        if (this.photoDao.findByUserId(candidateUserId) == null)
+            allDataResult.addResult(new ErrorResult("kullanıcı yok"));
         return allDataResult;
     }
 
